@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>🐰 Thỏ Kiểm Tra Giọng & Văn Bản</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <h1>🐇 Thỏ Kiểm Tra Phát Âm & Viết Văn 🐇</h1>
+
+  <!-- Nút chọn chế độ -->
+  <div class="mode-buttons">
+    <button id="voiceMode">🎤 Chế độ giọng nói</button>
+    <button id="textMode">✏️ Chế độ gõ văn bản</button>
+  </div>
+
+  <!-- Chế độ GIỌNG NÓI -->
+  <div id="voiceSection" class="section">
+    <div class="bunny">🐰</div>
+    <button id="startVoice">🎙️ Bắt đầu đọc</button>
+    <div id="voiceFeedback" class="feedback"></div>
+    <div id="voiceProgressContainer" class="progress-container hidden">
+      <div id="voiceProgressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- Chế độ VĂN BẢN -->
+  <div id="textSection" class="section hidden">
+    <div class="bunny">🐰</div>
+    <textarea id="textInput" placeholder="Nhập đoạn văn của bé vào đây nhé..."></textarea>
+    <br />
+    <button id="checkText">📖 Kiểm tra</button>
+    <div id="textFeedback" class="feedback"></div>
+    <div id="textProgressContainer" class="progress-container hidden">
+      <div id="textProgressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
