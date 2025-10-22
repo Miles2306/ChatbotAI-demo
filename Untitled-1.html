@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bạn Robot đọc cùng em 🤖</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🤖 Bạn Robot đọc cùng em</h1>
+    <p class="subtitle">Chọn cách mà bé muốn học hôm nay nhé!</p>
+
+    <div class="mode-buttons">
+      <button id="voiceMode">🎤 Đọc bằng giọng</button>
+      <button id="textMode">⌨️ Gõ văn bản</button>
+    </div>
+
+    <div id="voiceSection" class="section hidden">
+      <p>Nhấn 🎤 để bắt đầu đọc!</p>
+      <button id="startVoice">🎙️ Bắt đầu đọc</button>
+      <p id="voiceFeedback" class="feedback"></p>
+    </div>
+
+    <div id="textSection" class="section hidden">
+      <textarea id="textInput" placeholder="Bé gõ đoạn văn ở đây..."></textarea>
+      <button id="checkText">🧠 Kiểm tra</button>
+      <p id="textFeedback" class="feedback"></p>
+    </div>
+
+    <footer>
+      <p> Mạnh Quân</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
