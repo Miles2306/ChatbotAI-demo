@@ -1,38 +1,306 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bạn Robot đọc cùng em 🤖</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>🐰 Thỏ Kiểm Tra Giọng & Văn Bản</title>
+
+  <!-- 🌸 ② PHẦN CSS: Trang trí & giao diện -->
+  <style>
+    /* Tổng thể */
+    body {
+      background: linear-gradient(135deg, #ffeef5, #ffd9e8); /* nền hồng pastel nhẹ */
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      padding: 30px;
+      color: #333;
+    }
+
+    /* Tiêu đề chính */
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 15px;
+      color: #ff6f91;
+      text-shadow: 1px 1px 2px rgba(255, 150, 180, 0.2);
+    }
+
+    /* Nút chọn chế độ */
+    .mode-buttons {
+      margin-bottom: 25px;
+    }
+
+    button {
+      background: #ffb6c1;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      margin: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: white;
+      font-weight: 500;
+      box-shadow: 0 4px 10px rgba(255, 182, 193, 0.4);
+    }
+
+    button:hover {
+      background: #ffa1b0;
+      transform: scale(1.05);
+    }
+
+    /* Khối giao diện chính */
+    .section {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 10px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 15px rgba(255, 150, 180, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Thanh tiến độ */
+    .progress-container {
+      margin-top: 15px;
+      background: #ffe6ec;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, #ffb6c1, #ff91a4);
+      transition: width 2s ease;
+    }
+
+    /* Ô nhập văn bản */
+    textarea {
+      width: 90%;
+      height: 100px;
+      border-radius: 12px;
+      border: 1px solid #ffd1dc;
+      padding: 10px;
+      font-size: 1rem;
+      resize: none;
+      outline: none;
+      transition: box-shadow 0.2s ease;
+    }
+
+    textarea:focus {
+      box-shadow: 0 0 5px #ffb6c1;
+    }
+
+    /* Khu vực phản hồi */
+    .feedback {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      color: #444;
+      min-height: 30px;
+    }
+
+    /* Thỏ hoạt hình */
+    .bunny {
+      font-size: 3rem;
+      animation: hop 1.2s infinite alternate ease-in-out;
+    }
+
+    @keyframes hop {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
+
 <body>
-  <div class="container">
-    <h1>🤖 Bạn Robot đọc cùng em</h1>
-    <p class="subtitle">Chọn cách mà bé muốn học hôm nay nhé!</p>
 
-    <div class="mode-buttons">
-      <button id="voiceMode">🎤 Đọc bằng giọng</button>
-      <button id="textMode">⌨️ Gõ văn bản</button>
-    </div>
+  <!-- 🌷 ① PHẦN HTML: Cấu trúc giao diện -->
+  <h1>🐇 Thỏ Kiểm Tra Phát Âm & Viết Văn 🐇</h1>
 
-    <div id="voiceSection" class="section hidden">
-      <p>Nhấn 🎤 để bắt đầu đọc!</p>
-      <button id="startVoice">🎙️ Bắt đầu đọc</button>
-      <p id="voiceFeedback" class="feedback"></p>
-    </div>
-
-    <div id="textSection" class="section hidden">
-      <textarea id="textInput" placeholder="Bé gõ đoạn văn ở đây..."></textarea>
-      <button id="checkText">🧠 Kiểm tra</button>
-      <p id="textFeedback" class="feedback"></p>
-    </div>
-
-    <footer>
-      <p> Mạnh Quân</p>
-    </footer>
+  <!-- Nút chọn chế độ -->
+  <div class="mode-buttons">
+    <button id="voiceMode">🎤 Chế độ giọng nói</button>
+    <button id="textMode">✏️ Chế độ gõ văn bản</button>
   </div>
 
-  <script src="script.js"></script>
+  <!-- Chế độ GIỌNG NÓI -->
+  <div id="voiceSection" class="section">
+    <div class="bunny">🐰</div>
+    <button id="startVoice">🎙️ Bắt đầu đọc</button>
+    <div id="voiceFeedback" class="feedback"></div>
+    <div id="voiceProgressContainer" class="progress-container hidden">
+      <div id="voiceProgressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+  <!-- Chế độ VĂN BẢN -->
+  <div id="textSection" class="section hidden">
+    <div class="bunny">🐰</div>
+    <textarea id="textInput" placeholder="Nhập đoạn văn của bé vào đây nhé..."></textarea>
+    <br>
+    <button id="checkText">📖 Kiểm tra</button>
+    <div id="textFeedback" class="feedback"></div>
+    <div id="textProgressContainer" class="progress-container hidden">
+      <div id="textProgressBar" class="progress-bar"></div>
+    </div>
+  </div>
+
+
+  <!-- 🪄 ③ PHẦN JAVASCRIPT: Logic & phản hồi -->
+  <script>
+    // --- Phản hồi cho 2 chế độ ---
+    const voiceCompliments = [
+      "Bé đọc rất hay và rõ ràng luôn 🎉",
+      "Tốt lắm! Giọng bé dễ thương ghê 😄",
+      "Chữ nào cũng rõ, bé giỏi quá 👏",
+      "Cố lên nha, bé đọc giỏi thêm từng ngày 🌟",
+      "Rất tốt, chỉ cần chậm lại một chút thôi 🐢",
+      "Thỏ rất tự hào về bé đó 🐰💖",
+      "Bé đọc giỏi như thỏ nhảy nhanh luôn 🥕",
+      "Tuyệt vời! Bé khiến Thỏ mỉm cười rồi nè 😊",
+    ];
+
+    const voiceCorrections = [
+      "Thử đọc lại nhé, phát âm chữ 'ch' cho rõ hơn nha 👂",
+      "Có vài chỗ hơi nhanh, bé chậm lại một chút nè ⏳",
+      "Thiếu dấu nhẹ thôi, nhưng bé làm rất tốt 💪",
+      "Cố gắng lên, mỗi lần đọc lại là tiến bộ thêm 🎯",
+      "Hôm nay bé đọc 95% chính xác rồi đó 🐇✨",
+      "Thỏ nghe hơi lẫn chữ 'r' và 'd' đó, thử lại nha 💬",
+      "Bé sắp hoàn hảo rồi, chỉ cần chỉnh tí xíu thôi 🌸",
+    ];
+
+    const textCompliments = [
+      "Bé viết câu rất mạch lạc luôn 📝",
+      "Diễn đạt tốt lắm, ý rõ ràng ghê 👏",
+      "Từ ngữ bé chọn rất hay 🌸",
+      "Câu văn tự nhiên và dễ hiểu lắm 🌿",
+      "Thỏ thích cách bé viết nè 🐰💖",
+      "Cấu trúc câu rất ổn, bé làm tốt đó 😄",
+      "Bé viết có cảm xúc ghê đó ✨",
+      "Đọc đoạn này mà Thỏ thấy vui luôn 💕",
+    ];
+
+    const textCorrections = [
+      "Thỏ thấy có vài lỗi chính tả nhỏ, bé thử xem lại nhé ✏️",
+      "Bé thêm dấu câu sẽ hay hơn đó 📚",
+      "Câu hơi dài chút, chia nhỏ sẽ dễ hiểu hơn nè 🌼",
+      "Thử dùng thêm từ nối cho mạch văn trôi chảy hơn nha 💬",
+      "Ý bé hay lắm, chỉ cần chỉnh vài chữ thôi 🎯",
+      "Bé đang tiến bộ rõ luôn, cố lên nhé 💪",
+    ];
+
+    // --- Lấy phần tử DOM ---
+    const voiceModeBtn = document.getElementById("voiceMode");
+    const textModeBtn = document.getElementById("textMode");
+    const voiceSection = document.getElementById("voiceSection");
+    const textSection = document.getElementById("textSection");
+    const startVoiceBtn = document.getElementById("startVoice");
+    const checkTextBtn = document.getElementById("checkText");
+    const voiceFeedback = document.getElementById("voiceFeedback");
+    const textFeedback = document.getElementById("textFeedback");
+    const textInput = document.getElementById("textInput");
+    const voiceProgressContainer = document.getElementById("voiceProgressContainer");
+    const textProgressContainer = document.getElementById("textProgressContainer");
+    const voiceProgressBar = document.getElementById("voiceProgressBar");
+    const textProgressBar = document.getElementById("textProgressBar");
+
+    // --- Giọng nữ tiếng Việt ---
+    let vietnameseFemale = null;
+    speechSynthesis.onvoiceschanged = () => {
+      const voices = speechSynthesis.getVoices();
+      vietnameseFemale = voices.find(
+        (v) =>
+          v.lang.startsWith("vi") &&
+          (v.name.toLowerCase().includes("female") ||
+           v.name.toLowerCase().includes("viet") ||
+           v.name.toLowerCase().includes("google"))
+      );
+      console.log("🎤 Đã tải giọng:", vietnameseFemale?.name || "Không tìm thấy giọng Việt");
+    };
+
+    function speak(text) {
+      const utter = new SpeechSynthesisUtterance(
+        text.replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+      );
+      utter.lang = "vi-VN";
+      utter.rate = 1.0;
+      utter.pitch = 1.2;
+      if (vietnameseFemale) utter.voice = vietnameseFemale;
+      speechSynthesis.speak(utter);
+    }
+
+    // --- Chuyển chế độ ---
+    voiceModeBtn.onclick = () => {
+      voiceSection.classList.remove("hidden");
+      textSection.classList.add("hidden");
+      resetProgress();
+    };
+    textModeBtn.onclick = () => {
+      textSection.classList.remove("hidden");
+      voiceSection.classList.add("hidden");
+      resetProgress();
+    };
+
+    // --- Hiển thị thanh tiến độ ---
+    function showProgress(bar, container, callback) {
+      container.classList.remove("hidden");
+      bar.style.width = "0";
+      setTimeout(() => (bar.style.width = "100%"), 100);
+      setTimeout(() => {
+        callback();
+        bar.style.width = "0";
+        container.classList.add("hidden");
+      }, 2000);
+    }
+
+    function resetProgress() {
+      voiceProgressContainer.classList.add("hidden");
+      textProgressContainer.classList.add("hidden");
+      voiceFeedback.textContent = "";
+      textFeedback.textContent = "";
+    }
+
+    // --- Chế độ GIỌNG NÓI ---
+    startVoiceBtn.onclick = () => {
+      voiceFeedback.textContent = "🎙️ Thỏ đang lắng nghe...";
+      showProgress(voiceProgressBar, voiceProgressContainer, () => {
+        const feedback =
+          Math.random() > 0.5
+            ? voiceCompliments[Math.floor(Math.random() * voiceCompliments.length)]
+            : voiceCorrections[Math.floor(Math.random() * voiceCorrections.length)];
+        voiceFeedback.textContent = feedback;
+        speak(feedback);
+      });
+    };
+
+    // --- Chế độ GÕ VĂN BẢN ---
+    checkTextBtn.onclick = () => {
+      const text = textInput.value.trim();
+      if (!text) {
+        textFeedback.textContent = "Bé chưa nhập gì hết nè 🧐";
+        speak("Bé chưa nhập gì hết nè");
+        return;
+      }
+      textFeedback.textContent = "🤖 Thỏ đang kiểm tra...";
+      showProgress(textProgressBar, textProgressContainer, () => {
+        const score = Math.floor(80 + Math.random() * 20);
+        const feedback =
+          (Math.random() > 0.5
+            ? textCompliments[Math.floor(Math.random() * textCompliments.length)]
+            : textCorrections[Math.floor(Math.random() * textCorrections.length)]) +
+          ` Bé đạt ${score}% chính xác đó 🎯`;
+        textFeedback.textContent = feedback;
+        speak(feedback);
+      });
+    };
+  </script>
+
 </body>
 </html>
